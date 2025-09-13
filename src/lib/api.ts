@@ -62,7 +62,7 @@ export const fetchCategories = async (): Promise<string[]> => {
   try {
     const response = await fetch(`${API_BASE_URL}/categories`);
     const data = await response.json();
-    return Array.isArray(data) ? data.map((item: any) => typeof item === 'string' ? item : item.name || item.slug || String(item)).filter(Boolean) : [];
+    return Array.isArray(data) ? data.map((item: unknown) => typeof item === 'string' ? item : (item as { name?: string; slug?: string }).name || (item as { name?: string; slug?: string }).slug || String(item)).filter(Boolean) : [];
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductFilters } from '@/components/ProductFilters';
 import { Product } from '@/types';
@@ -133,12 +134,12 @@ export default function ProductsPage() {
                 <p className="text-gray-600 mb-8">
                   Try adjusting your search criteria or browse our categories.
                 </p>
-                <a
+                <Link
                   href="/products"
                   className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   View All Products
-                </a>
+                </Link>
               </div>
             ) : (
               <>

@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Smartphone, Laptop, Shirt, Home, Gamepad2, Heart } from 'lucide-react';
 import { fetchCategories, fetchProductsByCategory } from '@/lib/api';
 import { Product } from '@/types';
 
-const categoryIcons: { [key: string]: any } = {
+const categoryIcons: { [key: string]: React.ComponentType<{ className?: string }> } = {
   'smartphones': Smartphone,
   'laptops': Laptop,
   'mens-shirts': Shirt,
@@ -74,7 +75,7 @@ export default function CategoriesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h1>
-          <p className="text-lg text-gray-600">Find exactly what you're looking for</p>
+          <p className="text-lg text-gray-600">Find exactly what you&apos;re looking for</p>
         </div>
 
         <div className="space-y-12">
@@ -105,9 +106,11 @@ export default function CategoriesPage() {
                       href={`/products/${product.id}`}
                       className="group bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors"
                     >
-                      <img
+                      <Image
                         src={product.thumbnail}
                         alt={product.title}
+                        width={400}
+                        height={128}
                         className="w-full h-32 object-cover rounded-lg mb-3 group-hover:scale-105 transition-transform"
                       />
                       <h3 className="font-medium text-gray-900 line-clamp-2 mb-1">

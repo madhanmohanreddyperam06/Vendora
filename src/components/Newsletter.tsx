@@ -70,7 +70,7 @@ export function Newsletter() {
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h3>
             <p className="text-gray-600 mb-4">
-              You've successfully subscribed to our newsletter. You'll receive updates about new products and exclusive offers.
+              You&apos;ve successfully subscribed to our newsletter. You&apos;ll receive updates about new products and exclusive offers.
             </p>
             <button
               onClick={() => setIsSubscribed(false)}

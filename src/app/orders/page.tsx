@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Package, Eye, Calendar } from 'lucide-react';
 import { useUserStore } from '@/store/userStore';
 import { formatPrice } from '@/lib/utils';
@@ -64,7 +65,7 @@ export default function OrdersPage() {
             ].map(({ key, label }) => (
               <button
                 key={key}
-                onClick={() => setFilter(key as any)}
+                onClick={() => setFilter(key as 'all' | 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   filter === key
                     ? 'bg-blue-600 text-white'
@@ -134,11 +135,13 @@ export default function OrdersPage() {
                 {/* Order Items Preview */}
                 <div className="mb-4">
                   <div className="flex space-x-2 overflow-x-auto">
-                    {order.items.slice(0, 4).map((item, index) => (
-                      <img
+                    {order.items.slice(0, 4).map((item: { product: { thumbnail: string; title: string } }, index: number) => (
+                      <Image
                         key={index}
                         src={item.product.thumbnail}
                         alt={item.product.title}
+                        width={48}
+                        height={48}
                         className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                       />
                     ))}

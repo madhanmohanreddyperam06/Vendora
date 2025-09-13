@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/types';
 import { searchProducts } from '@/lib/api';
@@ -98,12 +99,12 @@ export default function SearchPage() {
           <div className="text-center py-16">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">No Search Query</h2>
             <p className="text-gray-600 mb-8">Please enter a search term to find products.</p>
-            <a
+            <Link
               href="/products"
               className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Browse All Products
-            </a>
+            </Link>
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-16">
@@ -112,18 +113,18 @@ export default function SearchPage() {
               We couldn't find any products matching "{query}". Try different keywords or browse our categories.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
+              <Link
                 href="/products"
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Browse All Products
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/categories"
                 className="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors"
               >
                 Browse Categories
-              </a>
+              </Link>
             </div>
           </div>
         ) : (

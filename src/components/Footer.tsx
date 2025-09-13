@@ -16,7 +16,7 @@ export function Footer() {
             </div>
             <p className="text-gray-400 text-sm">
               Your one-stop shop for quality products at great prices. 
-              We're committed to providing excellent customer service and fast delivery.
+              We&apos;re committed to providing excellent customer service and fast delivery.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
