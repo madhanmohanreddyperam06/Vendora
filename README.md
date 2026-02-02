@@ -1,6 +1,6 @@
-# MM Store
+# Vendora - E-commerce Storefront
 
-A modern, full-stack online store built with Next.js, TypeScript, and Tailwind CSS. This project demonstrates a complete e-commerce solution with product catalog, shopping cart, checkout flow, user authentication, and order management.
+A modern, full-stack online store built with React, Next.js, TypeScript, and Tailwind CSS. This project demonstrates a complete e-commerce solution with product catalog, shopping cart, checkout flow, user authentication, and order management.
 
 ## 🚀 Features
 
