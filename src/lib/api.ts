@@ -69,3 +69,4 @@ export const fetchCategories = async (): Promise<string[]> => {
   }
 };
 
+

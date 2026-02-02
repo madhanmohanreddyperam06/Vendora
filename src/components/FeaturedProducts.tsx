@@ -7,11 +7,14 @@ import { Product } from '@/types';
 import { fetchProducts } from '@/lib/api';
 import { formatPrice, calculateDiscount } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore';
+import { ProductCardSkeleton } from './SkeletonLoader';
 
 export function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { addItem } = useCartStore();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,6 +38,14 @@ export function FeaturedProducts() {
     addItem(product);
   };
 
+  const handleToggleWishlist = (product: Product) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
   const handleRetry = () => {
     setLoading(true);
     setError(null);
@@ -55,19 +66,14 @@ export function FeaturedProducts() {
   if (loading) {
     return (
       <div className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
             <p className="text-lg text-gray-600">Loading amazing products...</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-lg shadow-md p-6 animate-pulse">
-                <div className="bg-gray-300 h-48 rounded-lg mb-4"></div>
-                <div className="bg-gray-300 h-4 rounded mb-2"></div>
-                <div className="bg-gray-300 h-4 rounded mb-4"></div>
-                <div className="bg-gray-300 h-6 rounded"></div>
-              </div>
+              <ProductCardSkeleton key={i} />
             ))}
           </div>
         </div>
@@ -78,7 +84,7 @@ export function FeaturedProducts() {
   if (error) {
     return (
       <div className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
             <p className="text-lg text-red-600">{error}</p>
@@ -96,7 +102,7 @@ export function FeaturedProducts() {
 
   return (
     <div className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
           <p className="text-lg text-gray-600">Handpicked products just for you</p>
@@ -123,8 +129,15 @@ export function FeaturedProducts() {
                       -{product.discountPercentage}%
                     </div>
                   )}
-                  <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-red-50 transition-colors">
-                    <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
+                  <button 
+                    onClick={() => handleToggleWishlist(product)}
+                    className={`absolute top-2 right-2 p-2 bg-white rounded-full shadow-md transition-colors ${
+                      isInWishlist(product.id) ? 'bg-red-50' : 'hover:bg-red-50'
+                    }`}
+                  >
+                    <Heart className={`h-4 w-4 transition-colors ${
+                      isInWishlist(product.id) ? 'text-red-500 fill-current' : 'text-gray-600 hover:text-red-500'
+                    }`} />
                   </button>
                 </div>
 

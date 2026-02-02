@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { Star, ShoppingCart, Heart } from 'lucide-react';
+import Image from 'next/image';
+import { Star, ShoppingCart, Heart, Eye } from 'lucide-react';
 import { Product } from '@/types';
 import { formatPrice, calculateDiscount } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore';
+import { QuickViewModal } from './QuickViewModal';
 
 interface ProductCardProps {
   product: Product;
@@ -12,10 +16,14 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCartStore();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
   
   const discountedPrice = product.discountPercentage && product.discountPercentage > 0
     ? calculateDiscount(product.price, product.discountPercentage)
     : product.price;
+
+  const isWishlisted = isInWishlist(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -23,14 +31,36 @@ export function ProductCard({ product }: ProductCardProps) {
     addItem(product);
   };
 
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isWishlisted) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsQuickViewOpen(true);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 group">
+    <>
+      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 group">
       <div className="relative">
         <Link href={`/products/${product.id}`}>
-          <img
+          <Image
             src={product.thumbnail}
             alt={product.title}
+            width={300}
+            height={200}
             className="w-full h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/8A8A"
           />
         </Link>
         {product.discountPercentage && product.discountPercentage > 0 && (
@@ -38,8 +68,22 @@ export function ProductCard({ product }: ProductCardProps) {
             -{product.discountPercentage}%
           </div>
         )}
-        <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-red-50 transition-colors">
-          <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
+        <button 
+          onClick={handleToggleWishlist}
+          className={`absolute top-2 right-2 p-2 bg-white rounded-full shadow-md transition-colors ${
+            isWishlisted ? 'bg-red-50' : 'hover:bg-red-50'
+          }`}
+        >
+          <Heart className={`h-4 w-4 transition-colors ${
+            isWishlisted ? 'text-red-500 fill-current' : 'text-gray-600 hover:text-red-500'
+          }`} />
+        </button>
+        
+        <button 
+          onClick={handleQuickView}
+          className="absolute top-2 left-2 p-2 bg-white rounded-full shadow-md hover:bg-blue-50 transition-colors opacity-0 group-hover:opacity-100"
+        >
+          <Eye className="h-4 w-4 text-gray-600 hover:text-blue-600" />
         </button>
       </div>
 
@@ -96,5 +140,12 @@ export function ProductCard({ product }: ProductCardProps) {
         </button>
       </div>
     </div>
+    
+    <QuickViewModal 
+      product={product} 
+      isOpen={isQuickViewOpen} 
+      onClose={() => setIsQuickViewOpen(false)} 
+    />
+    </>
   );
 }

@@ -25,7 +25,7 @@ export function Newsletter() {
   if (!isHydrated) {
     return (
       <div className="bg-blue-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white mb-4">
               Stay Updated with Our Newsletter
@@ -63,7 +63,7 @@ export function Newsletter() {
   if (isSubscribed) {
     return (
       <div className="bg-blue-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white rounded-lg p-8 max-w-md mx-auto">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="h-8 w-8 text-green-600" />
