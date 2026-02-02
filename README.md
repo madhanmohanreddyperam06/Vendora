@@ -35,8 +35,8 @@ A modern, full-stack online store built with React, Next.js, TypeScript, and Tai
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/madhanmohanreddyperam06/FUTURE_FS_02.git
-   cd mm-store
+   git clone https://github.com/madhanmohanreddyperam06/Vendora.git
+   cd vendora
    ```
 
 2. **Install dependencies**
